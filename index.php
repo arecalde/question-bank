@@ -94,85 +94,34 @@ $NUMOFIANSWERS = 0; //minus 1
              alert('Added');
              run = 0;
              }
-
-          else if(data == 'S'){
-            alert('Search successful');        
-          }
           else if(data == '1'){
             run = 1;     
                               alert('Duplicate, if you want to add it again, please press add again');
 
+          }else{
+            document.getElementById('results').innerHTML = data;
+            
           }
         }
     });
       
     }
 </script>
-<?php 
-  $addBtn = $_POST['add'];
-  $search = $_POST['search'];
 
-  $question = $_POST['question'];
-  $answer = $_POST['answer'];
-  $question = strtolower($question);
-  $answer = strtolower($answer);
-
-  $ianswer = array();
-  $name = "";
-  $count = 1;
-    $name = "ianswer".$count;
-$size = 0;
-  while($count < $NUMOFIANSWERS && ($_POST[$name] != "")){
-    $name = "ianswer".$count;
-    $ianswer[$count-1] = $_POST[$name];
-    $count++;
-  }
-$size = $count-2;
-  
 
 ?>
 
 <br />
 <center><h2>
-  <?php 
-  
-    if(isset($search)){
-    //$str = arrayToStr($ianswer, $size);
-    //$sql = "INSERT INTO `qa`.`questions` (`id`, `question`, `answer`, `ianswer`) VALUES (NULL, '$question', '$answer', '$str');";
-    //$sql = "SELECT * FROM `questions` WHERE `question`='$question' OR `answer`='$answer'";
-          $sql = "SELECT * FROM `questions` WHERE (`question` LIKE '%%".$question."%%' AND `answer` LIKE '%%".$answer."%%')";
-
-      $query = mysqli_query($connect, $sql);
-    if($query){
-      while($results = mysqli_fetch_assoc($query)){
-        $question1 = $results['question'];
-        $answer1 = $results['answer'];
-      echo "<h1>Question: <b>$question1</b></h1><br /><h1>Answer: <b>$answer1</b></h1>";
-
-      }
-    }else{
-      echo "Search Failed";
-    }//*/
-  }
-  
-  
-  
-  if(isset($addBtn)){
-    $str = arrayToStr($ianswer, $size);
-    $sql = "INSERT INTO `qa`.`questions` (`id`, `question`, `answer`, `ianswer`) VALUES (NULL, '$question', '$answer', '$str');";
-
-    $query = mysqli_query($connect, $sql);
-    if($query){
-      echo "Successfully added to the database";
-    }else{
-      echo "Insertion Failed";
-    }
-  }
-  ?>
   <br />
 <hr />
   <?php 
    
   ?>
   <a href='allAnswers.php' target=_blank>View all answers</a>
+  <br /><br />
+  <hr />
+  <div id='results'>
+    
+  </div>
   </h2></center>
