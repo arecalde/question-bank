@@ -3,14 +3,22 @@
       <style>
         input{
           width: 100%;
-        }    
+        }
+        #qa div {
+          margin: 10px;
+          width: 90%;
+          
+        }
+
   </style>
 </head>
 
 <?php 
-  include '../databases/questionBankConnect.php';
   include 'includes/functions.php';
-  $NUMOFIANSWERS = 6; //minus 1 
+  include 'includes/connect.php';
+
+
+$NUMOFIANSWERS = 6; //minus 1 
 ?>
 
 <div class='col-md-12' style='border-style: solid; border-width: 1px; border-color: black'>
@@ -57,16 +65,20 @@
         $count++;
       }
       ?>
-      <input type='submit' value='Search' />
+      <input type='submit' value='Search' name='search' />
     </form>
   </div>
 </div><br /><br />
 
 <?php 
   $addBtn = $_POST['add'];
+  $search = $_POST['search'];
 
   $question = $_POST['question'];
   $answer = $_POST['answer'];
+  $question = strtolower($question);
+  $answer = strtolower($answer);
+
   $ianswer = array();
   $name = "";
   $count = 1;
@@ -86,7 +98,26 @@ $size = $count-2;
 <center><h2>
   <?php 
   
-    if(isset($addBtn)){
+    if(isset($search)){
+    //$str = arrayToStr($ianswer, $size);
+    //$sql = "INSERT INTO `qa`.`questions` (`id`, `question`, `answer`, `ianswer`) VALUES (NULL, '$question', '$answer', '$str');";
+    $sql = "SELECT * FROM `questions` WHERE `question`='$question' OR `answer`='$answer'";
+      $query = mysqli_query($connect, $sql);
+    if($query){
+      while($results = mysqli_fetch_assoc($query)){
+        $question1 = $results['question'];
+        $answer1 = $results['answer'];
+      echo "<h1>Question: <b>$question1</b></h1><br /><h1>Answer: <b>$answer1</b></h1>";
+
+      }
+    }else{
+      echo "Search Failed";
+    }//*/
+  }
+  
+  
+  
+  if(isset($addBtn)){
     $str = arrayToStr($ianswer, $size);
     $sql = "INSERT INTO `qa`.`questions` (`id`, `question`, `answer`, `ianswer`) VALUES (NULL, '$question', '$answer', '$str');";
     $query = mysqli_query($connect, $sql);
@@ -98,5 +129,9 @@ $size = $count-2;
   }
   ?>
   <br />
-All Questions and Answers
+<hr />
+  <?php 
+   
+  ?>
+  <a href='allAnswers.php'>View all answers</a>
   </h2></center>
