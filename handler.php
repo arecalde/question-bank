@@ -26,7 +26,7 @@
       while($results = mysqli_fetch_assoc($query)){
         $question1 = $results['question'];
         $answer1 = $results['answer'];
-      echo "<h1>Question: <b>$question1</b></h1><br /><h1>Answer: <b>$answer1</b></h1>";
+      echo "<h1>Question: <b>$question1</b></h1><br /><h1>Answer: <b>$answer1</b></h1><hr />";
       }
     }else{
       echo "Search Failed";
